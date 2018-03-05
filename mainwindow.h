@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsItem>
 
 #include <algorithm>
 
@@ -28,13 +29,19 @@ private:
     void setSettings();
     void genNewPixmap();
 
+    // Random
     std::default_random_engine                          randomEngine;
     std::vector<std::uniform_int_distribution<int>>     randomIntX;
     std::vector<std::uniform_int_distribution<int>>     randomIntY;
 
+    // Draw
     QPixmap     *pixmap;
     QPainter    *painter;
     QPen        *pen;
+
+    // QGraphicsView
+    QGraphicsPixmapItem *item;
+    QGraphicsScene *scene;
 };
 
 #endif // MAINWINDOW_H

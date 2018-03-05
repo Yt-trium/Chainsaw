@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
     painter->setPen(*pen);
 
     randomEngine.seed(std::chrono::system_clock::now().time_since_epoch().count());
+
+    item    = NULL;
+    scene   = NULL;
 }
 
 MainWindow::~MainWindow()
@@ -31,7 +34,21 @@ void MainWindow::on_pushButton_generate_clicked()
 void MainWindow::on_pushButton_preview_clicked()
 {
     setSettings();
-    genNewPixmap()
+
+    genNewPixmap();
+
+    if(item != NULL)
+        delete item;
+    if(scene != NULL)
+        delete scene;
+
+    item = new QGraphicsPixmapItem(*pixmap);
+    scene = new QGraphicsScene();
+    scene->addItem(item);
+
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+    ui->graphicsView->show();
 }
 
 void MainWindow::setSettings()
@@ -71,5 +88,5 @@ void MainWindow::setSettings()
 
 void MainWindow::genNewPixmap()
 {
-
+    pixmap->fill(Qt::black);
 }
