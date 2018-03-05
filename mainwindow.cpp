@@ -1,24 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <cmath>
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    pixmap  = new QPixmap(32,32);
-    painter = new QPainter(pixmap);
-    pen     = new QPen(Qt::white);
-
-    painter->setPen(*pen);
-
     randomEngine.seed(std::chrono::system_clock::now().time_since_epoch().count());
-
-    item    = NULL;
-    scene   = NULL;
 }
 
 MainWindow::~MainWindow()
@@ -28,7 +17,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_generate_clicked()
 {
+    int i;
+
     setSettings();
+
+    QString suffix = '_' + QString::number(ui->spinBox_size->value()) + 'x'
+                         + QString::number(ui->spinBox_size->value()) + '_'
+                         + QString::number(ui->spinBox_depth->value()) + ".png";
+
+    ui->progressBar->setRange(0,ui->spinBox_gen->value()-1);
+
+    for(i=0;i<ui->spinBox_gen->value();++i)
+    {
+        genNewPixmap();
+        pixmap->save(QString(QString::number(i+1)+suffix));
+        ui->progressBar->setValue(i);
+    }
 }
 
 void MainWindow::on_pushButton_preview_clicked()
@@ -62,12 +66,26 @@ void MainWindow::setSettings()
     size    = ui->spinBox_size->value();
     depth   = ui->spinBox_depth->value();
 
+    if(pen != NULL)
+        delete pen;
+    if(painter != NULL)
+        delete painter;
+    if(pixmap != NULL)
+        delete pixmap;
+
+    pixmap  = new QPixmap(size,size);
+    painter = new QPainter(pixmap);
+    pen     = new QPen(Qt::white);
+
+    painter->setPen(*pen);
+
     std::uniform_int_distribution<int> tmpRandom;
+    std::vector<std::uniform_int_distribution<int>> tmpRandomVector;
 
     for(i=0;i<=depth;++i)
     {
         tmpRandom = std::uniform_int_distribution<int>(i*(size/(depth+1)),
-                                                      (i+1)*(size/(depth+1)));
+                                                      (i+1)*(size/(depth+1))-1);
         randomIntX.push_back(tmpRandom);
 
         if(i==0)
@@ -75,14 +93,17 @@ void MainWindow::setSettings()
         else if(i==1)
             p = 2;
         else
-            p = std::pow(i,2);
+            p *= 2;
+
+        tmpRandomVector.clear();
 
         for(j=0;j<p;j++)
         {
             tmpRandom = std::uniform_int_distribution<int>(j*(size/p),
-                                                          (j+1)*(size/p));
-            randomIntY.push_back(tmpRandom);
+                                                          (j+1)*(size/p)-1);
+            tmpRandomVector.push_back(tmpRandom);
         }
+        randomIntY.push_back(tmpRandomVector);
     }
 }
 
@@ -90,30 +111,25 @@ void MainWindow::genNewPixmap()
 {
     pixmap->fill(Qt::black);
 
-    int i, j, p;
-    int x1, y1, x2, y2;
-    int size, depth;
-    size    = ui->spinBox_size->value();
-    depth   = ui->spinBox_depth->value();
+    genNextLevel(QPoint((randomIntX.at(0)(randomEngine)),(randomIntY.at(0).at(0)(randomEngine))),
+                 1,0);
+}
 
-    for(i=0;i<depth;++i)
+void MainWindow::genNextLevel(QPoint p, int n, int m)
+{
+    // set line witdh
+    pen->setWidth(2*((ui->spinBox_depth->value()-n+1)/ui->spinBox_depth->value()));
+    painter->setPen(*pen);
+
+    QPoint  p1((randomIntX[n](randomEngine)),randomIntY[n][m](randomEngine)),
+            p2((randomIntX[n](randomEngine)),randomIntY[n][m+1](randomEngine));
+
+    painter->drawLine(p,p1);
+    painter->drawLine(p,p2);
+
+    if(n < ui->spinBox_depth->value())
     {
-        pen->setWidth((i/depth)*4);
-
-        x1 = randomIntX[i](randomEngine);
-        x2 = randomIntX[i+1](randomEngine);
-
-        if(i==0)
-            p = 1;
-        else if(i==1)
-            p = 2;
-        else
-            p = std::pow(i,2);
-
-        for(j;j<p;j++)
-        {
-            y1 = randomIntY[j](randomEngine);
-            y2 = randomIntY[j+1](randomEngine);
-        }
+        genNextLevel(p1,n+1,m*2);
+        genNextLevel(p2,n+1,(m+1)*2);
     }
 }

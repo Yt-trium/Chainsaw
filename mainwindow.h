@@ -5,6 +5,7 @@
 #include <QGraphicsItem>
 
 #include <algorithm>
+#include <random>
 
 namespace Ui {
 class MainWindow;
@@ -26,22 +27,39 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    /**
+     * @brief setSettings load the settings from the user
+     * interface and allocate the drawing objects
+     */
     void setSettings();
+
+    /**
+     * @brief genNewPixmap generate a new image in pixmap
+     */
     void genNewPixmap();
 
+    /**
+     * @brief genNextLevel generate the next tree level
+     * @param p previous point
+     * @param n depth level
+     * @param m offset
+     */
+    void genNextLevel(QPoint p, int n, int m);
+
     // Random
-    std::default_random_engine                          randomEngine;
-    std::vector<std::uniform_int_distribution<int>>     randomIntX;
-    std::vector<std::uniform_int_distribution<int>>     randomIntY;
+    std::default_random_engine                      randomEngine;
+    std::vector<std::uniform_int_distribution<int>> randomIntX;
+    std::vector<std::vector<
+    std::uniform_int_distribution<int>>>            randomIntY;
 
     // Draw
-    QPixmap     *pixmap;
-    QPainter    *painter;
-    QPen        *pen;
+    QPixmap     *pixmap     = NULL;
+    QPainter    *painter    = NULL;
+    QPen        *pen        = NULL;
 
     // QGraphicsView
-    QGraphicsPixmapItem *item;
-    QGraphicsScene *scene;
+    QGraphicsPixmapItem *item   = NULL;
+    QGraphicsScene *scene       = NULL;
 };
 
 #endif // MAINWINDOW_H
