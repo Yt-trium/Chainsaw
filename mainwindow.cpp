@@ -89,4 +89,31 @@ void MainWindow::setSettings()
 void MainWindow::genNewPixmap()
 {
     pixmap->fill(Qt::black);
+
+    int i, j, p;
+    int x1, y1, x2, y2;
+    int size, depth;
+    size    = ui->spinBox_size->value();
+    depth   = ui->spinBox_depth->value();
+
+    for(i=0;i<depth;++i)
+    {
+        pen->setWidth((i/depth)*4);
+
+        x1 = randomIntX[i](randomEngine);
+        x2 = randomIntX[i+1](randomEngine);
+
+        if(i==0)
+            p = 1;
+        else if(i==1)
+            p = 2;
+        else
+            p = std::pow(i,2);
+
+        for(j;j<p;j++)
+        {
+            y1 = randomIntY[j](randomEngine);
+            y2 = randomIntY[j+1](randomEngine);
+        }
+    }
 }
