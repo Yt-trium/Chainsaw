@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QGraphicsItem>
+#include <QFile>
+#include <QTextStream>
 
 #include <algorithm>
 #include <random>
@@ -45,6 +47,12 @@ private:
      * @param m offset
      */
     void genNextLevel(QPoint p, int n, int m);
+
+    /**
+     * @brief qpixmap_to_qstring convert pixmap to qstring
+     * @return
+     */
+    QString qpixmap_to_qstring();
 
     // Random
     std::default_random_engine                      randomEngine;

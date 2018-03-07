@@ -21,16 +21,26 @@ void MainWindow::on_pushButton_generate_clicked()
 
     setSettings();
 
-    QString suffix = '_' + QString::number(ui->spinBox_size->value()) + 'x'
+    QString suffixpng = '_' + QString::number(ui->spinBox_size->value()) + 'x'
                          + QString::number(ui->spinBox_size->value()) + '_'
                          + QString::number(ui->spinBox_depth->value()) + ".png";
+    QString suffixtxt= '_' + QString::number(ui->spinBox_size->value()) + 'x'
+                         + QString::number(ui->spinBox_size->value()) + '_'
+                         + QString::number(ui->spinBox_depth->value()) + ".txt";
 
     ui->progressBar->setRange(0,ui->spinBox_gen->value()-1);
 
     for(i=0;i<ui->spinBox_gen->value();++i)
     {
         genNewPixmap();
-        pixmap->save(QString(QString::number(i+1)+suffix));
+
+        QFile file(QString(QString::number(i+1)+suffixtxt));
+        file.open(QIODevice::WriteOnly);
+        QTextStream outstream(&file);
+        outstream << qpixmap_to_qstring();
+        file.close();
+
+        pixmap->save(QString(QString::number(i+1)+suffixpng));
         ui->progressBar->setValue(i);
     }
 }
@@ -40,6 +50,8 @@ void MainWindow::on_pushButton_preview_clicked()
     setSettings();
 
     genNewPixmap();
+
+    ui->textEdit->setText(qpixmap_to_qstring());
 
     if(item != NULL)
         delete item;
@@ -132,4 +144,21 @@ void MainWindow::genNextLevel(QPoint p, int n, int m)
         genNextLevel(p1,n+1,m*2);
         genNextLevel(p2,n+1,(m+1)*2);
     }
+}
+
+QString MainWindow::qpixmap_to_qstring()
+{
+    QString string;
+    QImage tmpImg = pixmap->toImage();
+
+    for(int j = 0; j < tmpImg.height(); j++)
+    {
+        for(int i = 0; i < tmpImg.width(); i++)
+        {
+            qGray(tmpImg.pixel(i,j)) == 0 ?
+            string += '0' : string += '1';
+        }
+        string += '\n';
+    }
+    return string;
 }

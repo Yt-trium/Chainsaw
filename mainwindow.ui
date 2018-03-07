@@ -15,9 +15,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="4" column="0" colspan="2">
-     <widget class="QGraphicsView" name="graphicsView"/>
-    </item>
     <item row="5" column="0">
      <widget class="QPushButton" name="pushButton_preview">
       <property name="text">
@@ -112,6 +109,19 @@
       </property>
       <property name="value">
        <number>10</number>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QGraphicsView" name="graphicsView"/>
+    </item>
+    <item row="4" column="1">
+     <widget class="QTextEdit" name="textEdit">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+        <pointsize>2</pointsize>
+       </font>
       </property>
      </widget>
     </item>
