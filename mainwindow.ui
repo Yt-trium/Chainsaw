@@ -15,21 +15,34 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="5" column="0">
-     <widget class="QPushButton" name="pushButton_preview">
-      <property name="text">
-       <string>Preview</string>
+    <item row="1" column="1">
+     <widget class="QSpinBox" name="spinBox_size_x">
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>4096</number>
+      </property>
+      <property name="value">
+       <number>32</number>
       </property>
      </widget>
     </item>
-    <item row="5" column="1">
+    <item row="8" column="1">
      <widget class="QPushButton" name="pushButton_generate">
       <property name="text">
        <string>Generate</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
+    <item row="8" column="0">
+     <widget class="QPushButton" name="pushButton_preview">
+      <property name="text">
+       <string>Preview</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
      <widget class="QSpinBox" name="spinBox_depth">
       <property name="minimum">
        <number>0</number>
@@ -42,64 +55,21 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_size">
-      <property name="text">
-       <string>Size (height and width in pixels)</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QSpinBox" name="spinBox_size">
-      <property name="minimum">
-       <number>1</number>
-      </property>
-      <property name="maximum">
-       <number>16384</number>
-      </property>
-      <property name="value">
-       <number>32</number>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_model">
-      <property name="text">
-       <string>Tree model</string>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="0">
+     <widget class="QLabel" name="label_size_x">
+      <property name="text">
+       <string>Size X</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
      <widget class="QLabel" name="label_depth">
       <property name="text">
        <string>Tree depth</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <widget class="QComboBox" name="comboBox_model">
-      <item>
-       <property name="text">
-        <string>Binary Tree</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="6" column="0" colspan="2">
-     <widget class="QProgressBar" name="progressBar">
-      <property name="value">
-       <number>0</number>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_gen">
-      <property name="text">
-       <string>Generation</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
+    <item row="6" column="1">
      <widget class="QSpinBox" name="spinBox_gen">
       <property name="minimum">
        <number>1</number>
@@ -112,23 +82,126 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
-     <widget class="QGraphicsView" name="graphicsView"/>
-    </item>
-    <item row="4" column="1">
-     <widget class="QTextEdit" name="textEdit">
-      <property name="font">
-       <font>
-        <family>Monospace</family>
-        <pointsize>2</pointsize>
-       </font>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_gen">
+      <property name="text">
+       <string>Generation</string>
       </property>
      </widget>
+    </item>
+    <item row="9" column="0" colspan="2">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="comboBox_model">
+      <item>
+       <property name="text">
+        <string>2D Binary Tree</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2D Minimum Spanning Tree</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_size_y">
+      <property name="text">
+       <string>Size Y</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_model">
+      <property name="text">
+       <string>Model</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_size_z">
+      <property name="text">
+       <string>Size Z</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QSpinBox" name="spinBox_size_y">
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>4096</number>
+      </property>
+      <property name="value">
+       <number>32</number>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QSpinBox" name="spinBox_size_z">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>4096</number>
+      </property>
+      <property name="value">
+       <number>32</number>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_number_point">
+      <property name="text">
+       <string>Number of Points</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QSpinBox" name="spinBox_number_point">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>4096</number>
+      </property>
+      <property name="value">
+       <number>16</number>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0" colspan="2">
+     <widget class="QGraphicsView" name="graphicsView"/>
     </item>
    </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>comboBox_model</tabstop>
+  <tabstop>spinBox_size_x</tabstop>
+  <tabstop>spinBox_size_y</tabstop>
+  <tabstop>spinBox_size_z</tabstop>
+  <tabstop>spinBox_depth</tabstop>
+  <tabstop>spinBox_number_point</tabstop>
+  <tabstop>spinBox_gen</tabstop>
+  <tabstop>pushButton_preview</tabstop>
+  <tabstop>pushButton_generate</tabstop>
+  <tabstop>graphicsView</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

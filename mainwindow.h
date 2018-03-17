@@ -6,8 +6,17 @@
 #include <QFile>
 #include <QTextStream>
 
+#include <QtDebug>
+
 #include <algorithm>
 #include <random>
+
+/**
+ * @brief The Mode enum
+ */
+enum Mode { BT2D = 0,
+            MST2D = 1
+          };
 
 namespace Ui {
 class MainWindow;
@@ -22,52 +31,89 @@ public:
     ~MainWindow();
 
 private slots:
+    /**
+     * @brief on_pushButton_generate_clicked
+     * Generate a new dataset
+     */
     void on_pushButton_generate_clicked();
-
+    /**
+     * @brief on_pushButton_preview_clicked
+     * Generate a preview
+     */
     void on_pushButton_preview_clicked();
+    /**
+     * @brief on_comboBox_model_currentIndexChanged
+     * @param index
+     * Used to update the enabled and disabled widget
+     */
+    void on_comboBox_model_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;
 
     /**
-     * @brief setSettings load the settings from the user
-     * interface and allocate the drawing objects
+     * @brief getUserInterfaceSettings get the
+     * settings from the user interface
      */
-    void setSettings();
+    void getUserInterfaceSettings();
 
     /**
-     * @brief genNewPixmap generate a new image in pixmap
+     * @brief set_PaintDevices
      */
-    void genNewPixmap();
-
+    void set_PaintDevices();
     /**
-     * @brief genNextLevel generate the next tree level
+     * @brief set_Graphics
+     */
+    void set_Graphics();
+
+    // BT2D
+    /**
+     * @brief init_BT2D
+     */
+    void init_BT2D();
+    /**
+     * @brief genBT2D generate a new binary tree
+     * in pixmap
+     */
+    void genBT2D();
+    /**
+     * @brief genBT2DNextLevel generate the next tree level
      * @param p previous point
      * @param n depth level
      * @param m offset
      */
-    void genNextLevel(QPoint p, int n, int m);
+    void genBT2DNextLevel(QPoint p, int n, int m);
 
     /**
-     * @brief qpixmap_to_qstring convert pixmap to qstring
-     * @return
+     * @brief genMST2D generate a new minimum
+     * spanning tree in pixmap
      */
-    QString qpixmap_to_qstring();
+    void genMST2D();
 
     // Random
     std::default_random_engine                      randomEngine;
-    std::vector<std::uniform_int_distribution<int>> randomIntX;
+    // BT2D
+    std::vector<std::uniform_int_distribution<int>> BT2D_randomIntX;
     std::vector<std::vector<
-    std::uniform_int_distribution<int>>>            randomIntY;
+    std::uniform_int_distribution<int>>>            BT2D_randomIntY;
 
-    // Draw
+    // Paint Devices
     QPixmap     *pixmap     = NULL;
     QPainter    *painter    = NULL;
     QPen        *pen        = NULL;
 
-    // QGraphicsView
+    // Graphics
     QGraphicsPixmapItem *item   = NULL;
     QGraphicsScene *scene       = NULL;
+
+    // User Settings (GUI)
+    Mode user_mode      = BT2D;
+    int size_x          = 32;
+    int size_y          = 32;
+    int size_z          = 32;
+    int tree_depth      = 2;
+    int number_point    = 16;
+    int generation      = 10;
 };
 
 #endif // MAINWINDOW_H
