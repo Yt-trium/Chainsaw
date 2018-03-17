@@ -1,19 +1,17 @@
 # Chainsaw
-Tree-like Image Generator for deep learning datasets
+Graph/Tree-like Image Generator for deep learning datasets
 
 ![Chainsaw user interface](images/chainsaw_ui_2.png)
 
 ## Features
 * Preview image
-* Preview image information
-* Generate png image dataset (custom size of dataset)
-* Generate txt information for image
+* Generate png images dataset (custom size of dataset)
 * Custom size of image
-* Custom tree depth
 * Binary Tree model
+  * Custom tree depth
 
 ## Todo list
-* Random graph model
-* Random graph mst model
+* Minimum Spanning Tree model
+* 3D images dataset
 
 ### Version : 1.1
