@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>400</height>
+    <height>415</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -212,6 +212,28 @@
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuPresets">
+    <property name="title">
+     <string>Presets</string>
+    </property>
+    <addaction name="actionDRIVE_like"/>
+   </widget>
+   <addaction name="menuPresets"/>
+  </widget>
+  <action name="actionDRIVE_like">
+   <property name="text">
+    <string>DRIVE-like</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>

@@ -57,6 +57,12 @@ private slots:
      */
     void on_comboBox_model_currentIndexChanged(int index);
 
+    // Presets
+    /**
+     * @brief on_actionDRIVE_like_triggered
+     */
+    void on_actionDRIVE_like_triggered();
+
 private:
     Ui::MainWindow *ui;
 

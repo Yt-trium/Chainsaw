@@ -226,8 +226,8 @@ void MainWindow::init_MST2D()
     MST2D_randomIntX = std::uniform_int_distribution<int>(0,size_x-1);
     MST2D_randomIntY = std::uniform_int_distribution<int>(0,size_y-1);
 
-    MST2D_normal_randomIntX = std::normal_distribution<>(size_x*0.5,(size_x*0.125));
-    MST2D_normal_randomIntY = std::normal_distribution<>(size_y*0.5,(size_y*0.125));
+    MST2D_normal_randomIntX = std::normal_distribution<>(size_x*0.5,(size_x*0.2));
+    MST2D_normal_randomIntY = std::normal_distribution<>(size_y*0.5,(size_y*0.2));
 }
 
 void MainWindow::genMST2D()
@@ -261,11 +261,12 @@ void MainWindow::genMST2D()
 
     std::vector<QLine> tmp = k.kruskalMST();
 
+    // pen->setWidth(0.1*((size_x+size_y)/2)/(number_point*0.1));
+    pen->setWidth(3);
+    painter->setPen(*pen);
+
     for(std::size_t i = 0; i < tmp.size();i++)
     {
-        pen->setWidth(0.1*((size_x+size_y)/2)/(number_point*0.1));
-        painter->setPen(*pen);
-
         painter->drawLine(tmp.at(i));
     }
 
@@ -290,4 +291,100 @@ void MainWindow::genMST2D()
     qDebug() << log(1+min((0.1*(average_size)),
                 ((0.1*(average_size))+1)/(0.1*distance(center, tmp.at(i)))));
     */
+}
+
+void MainWindow::on_actionDRIVE_like_triggered()
+{
+    /* DRIVE database
+     *
+     * DRIVE
+     * │
+     * ├───┐test            20 (01 - 20)
+     * │   ├───1st_manual   565x584 ground truth gif    (_manual1.gif)
+     * │   ├───2nd_manual   565x584 ground truth gif    (_manual2.gif)
+     * │   ├───images       565x584 original tif        (_test.tif)
+     * │   └───mask         565x584 mask gif            (_test_mask.gif)
+     * │
+     * └───┐training        20 (21 - 40)
+     *     ├───1st_manual   565x584 ground truth gif    (_manual1.gif)
+     *     ├───images       565x584 original tif        (_training.tif)
+     *     └───mask         565x584 mask gif            (_training_mask.gif)
+     */
+
+    // Preset settings
+    user_mode       = MST2D;
+    size_x          = 565;
+    size_y          = 584;
+    number_point    = 1000;
+    user_distribution = Normal;
+
+    int i;
+
+    // Reset the Paint Devices
+    set_PaintDevices();
+
+    // Init MST2D
+    init_MST2D();
+
+    ui->progressBar->setRange(0,120);
+    int advancement = 0;
+
+    QString prefix1, suffix1, prefix2, suffix2, prefix3, suffix3;
+
+    // Generate 20 test
+
+    // ground truth
+    prefix1 = "./DRIVE/test/1st_manual/";
+    suffix1 = "_manual1.bmp";
+    // original
+    prefix2 = "./DRIVE/test/images/";
+    suffix2 = "_test.bmp";
+    // mask
+    prefix3 = "./DRIVE/test/mask/";
+    suffix3 = "_test_mask.bmp";
+
+    for(i=0;i<20;++i)
+    {
+        genMST2D();
+        pixmap->save(prefix1+QString(QString::number(i+1).rightJustified(2, '0')+suffix1));
+        advancement++;
+
+        pixmap->save(prefix2+QString(QString::number(i+1).rightJustified(2, '0')+suffix2));
+        advancement++;
+
+        pixmap->fill(Qt::white);
+        pixmap->save(prefix3+QString(QString::number(i+1).rightJustified(2, '0')+suffix3));
+        advancement++;
+
+        ui->progressBar->setValue(advancement);
+    }
+
+    // Generate 20 training
+
+    // ground truth
+    prefix1 = "./DRIVE/training/1st_manual/";
+    suffix1 = "_manual1.bmp";
+    // original
+    prefix2 = "./DRIVE/training/images/";
+    suffix2 = "_training.bmp";
+    // mask
+    prefix3 = "./DRIVE/training/mask/";
+    suffix3 = "_training_mask.bmp";
+
+    for(i=20;i<40;++i)
+    {
+        genMST2D();
+        pixmap->save(prefix1+QString(QString::number(i+1).rightJustified(2, '0')+suffix1));
+        advancement++;
+
+        pixmap->save(prefix2+QString(QString::number(i+1).rightJustified(2, '0')+suffix2));
+        advancement++;
+
+        pixmap->fill(Qt::white);
+        pixmap->save(prefix3+QString(QString::number(i+1).rightJustified(2, '0')+suffix3));
+        advancement++;
+
+        ui->progressBar->setValue(advancement);
+    }
+
 }
