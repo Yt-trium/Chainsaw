@@ -6,6 +6,7 @@
 
 #include <utility>
 #include <vector>
+#include <cmath>
 
 // int pair
 typedef std::pair<int, int> iPair;
