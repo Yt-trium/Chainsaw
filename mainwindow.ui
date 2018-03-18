@@ -221,6 +221,7 @@
   <tabstop>spinBox_size_z</tabstop>
   <tabstop>spinBox_depth</tabstop>
   <tabstop>spinBox_number_point</tabstop>
+  <tabstop>comboBox_points_distribution</tabstop>
   <tabstop>spinBox_gen</tabstop>
   <tabstop>pushButton_preview</tabstop>
   <tabstop>pushButton_generate</tabstop>
