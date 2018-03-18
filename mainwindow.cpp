@@ -108,8 +108,7 @@ void MainWindow::on_comboBox_model_currentIndexChanged(int index)
         ui->spinBox_depth->setEnabled(false);
         ui->spinBox_number_point->setEnabled(true);
         ui->spinBox_size_z->setEnabled(false);
-        // not implemented yet
-        ui->comboBox_points_distribution->setEnabled(false);
+        ui->comboBox_points_distribution->setEnabled(true);
         break;
     default:
         break;
@@ -125,6 +124,7 @@ void MainWindow::getUserInterfaceSettings()
     tree_depth      = ui->spinBox_depth->value();
     number_point    = ui->spinBox_number_point->value();
     generation      = ui->spinBox_gen->value();
+    user_distribution = (Distribution)ui->comboBox_points_distribution->currentIndex();
 }
 
 void MainWindow::set_PaintDevices()
@@ -225,11 +225,14 @@ void MainWindow::init_MST2D()
 {
     MST2D_randomIntX = std::uniform_int_distribution<int>(0,size_x-1);
     MST2D_randomIntY = std::uniform_int_distribution<int>(0,size_y-1);
+
+    MST2D_normal_randomIntX = std::normal_distribution<>(size_x*0.5,(size_x*0.125));
+    MST2D_normal_randomIntY = std::normal_distribution<>(size_y*0.5,(size_y*0.125));
 }
 
 void MainWindow::genMST2D()
 {
-    int i;
+    int i,x,y;
 
     pixmap->fill(Qt::black);
 
@@ -238,7 +241,20 @@ void MainWindow::genMST2D()
 
     for(i=0;i<number_point;++i)
     {
-        points.push_back(QPoint(MST2D_randomIntX(randomEngine),MST2D_randomIntY(randomEngine)));
+        switch((Distribution)user_distribution)
+        {
+        case Uniform:
+            points.push_back(QPoint(MST2D_randomIntX(randomEngine),MST2D_randomIntY(randomEngine)));
+            break;
+        case Normal:
+            x = MST2D_normal_randomIntX(randomEngine);
+            y = MST2D_normal_randomIntY(randomEngine);
+            points.push_back(QPoint(std::max(std::min(x,size_x-1),0),
+                                    std::max(std::min(y,size_y-1),0)));
+            break;
+        default:
+            break;
+        }
     }
 
     Kruskal k(points);

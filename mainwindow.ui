@@ -203,6 +203,11 @@
         <string>Uniform</string>
        </property>
       </item>
+      <item>
+       <property name="text">
+        <string>Normal (gaussian)</string>
+       </property>
+      </item>
      </widget>
     </item>
    </layout>

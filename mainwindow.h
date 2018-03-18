@@ -22,6 +22,11 @@ enum Mode { BT2D = 0,
             MST2D = 1
           };
 
+enum Distribution {
+            Uniform = 0,
+            Normal = 1
+            };
+
 namespace Ui {
 class MainWindow;
 }
@@ -108,6 +113,9 @@ private:
     // Uniform
     std::uniform_int_distribution<int> MST2D_randomIntX;
     std::uniform_int_distribution<int> MST2D_randomIntY;
+    // Normal
+    std::normal_distribution<> MST2D_normal_randomIntX;
+    std::normal_distribution<> MST2D_normal_randomIntY;
 
     // Paint Devices
     QPixmap     *pixmap     = NULL;
@@ -126,6 +134,7 @@ private:
     int tree_depth      = 2;
     int number_point    = 16;
     int generation      = 10;
+    Distribution user_distribution = Uniform;
 };
 
 #endif // MAINWINDOW_H
