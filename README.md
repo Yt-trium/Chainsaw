@@ -19,5 +19,6 @@ Graph/Tree-like Image Generator for deep learning datasets
 * 3D images dataset
 * Minimum Spanning Tree model
   * Better line width
+* Convex hull algorithm for masks generation
 
 ### Version : 1.2
