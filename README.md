@@ -11,11 +11,13 @@ Graph/Tree-like Image Generator for deep learning datasets
   * Custom tree depth
 * Minimum Spanning Tree model
   * Custom number of Points
+  * Custom distribution
+    * Uniform distribution
+	* Normal (gaussian distribution)
   
 ## Todo list
 * 3D images dataset
 * Minimum Spanning Tree model
-  * Custom distribution
   * Better line width
 
 ### Version : 1.2
