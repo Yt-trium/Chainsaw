@@ -35,6 +35,7 @@ void MainWindow::on_pushButton_generate_clicked()
         break;
     case MST2D:
         mode = "MST2D";
+        init_MST2D();
         break;
     default:
         break;
@@ -82,6 +83,7 @@ void MainWindow::on_pushButton_preview_clicked()
         genBT2D();
         break;
     case MST2D:
+        init_MST2D();
         genMST2D();
         break;
     default:
@@ -100,11 +102,14 @@ void MainWindow::on_comboBox_model_currentIndexChanged(int index)
         ui->spinBox_depth->setEnabled(true);
         ui->spinBox_number_point->setEnabled(false);
         ui->spinBox_size_z->setEnabled(false);
+        ui->comboBox_points_distribution->setEnabled(false);
         break;
     case MST2D:
         ui->spinBox_depth->setEnabled(false);
         ui->spinBox_number_point->setEnabled(true);
         ui->spinBox_size_z->setEnabled(false);
+        // not implemented yet
+        ui->comboBox_points_distribution->setEnabled(false);
         break;
     default:
         break;
@@ -216,7 +221,57 @@ void MainWindow::genBT2DNextLevel(QPoint p, int n, int m)
     }
 }
 
+void MainWindow::init_MST2D()
+{
+    MST2D_randomIntX = std::uniform_int_distribution<int>(0,size_x-1);
+    MST2D_randomIntY = std::uniform_int_distribution<int>(0,size_y-1);
+}
+
 void MainWindow::genMST2D()
 {
+    int i;
 
+    pixmap->fill(Qt::black);
+
+    // Generate random points
+    std::vector<QPoint> points;
+
+    for(i=0;i<number_point;++i)
+    {
+        points.push_back(QPoint(MST2D_randomIntX(randomEngine),MST2D_randomIntY(randomEngine)));
+    }
+
+    Kruskal k(points);
+
+    std::vector<QLine> tmp = k.kruskalMST();
+
+    for(std::size_t i = 0; i < tmp.size();i++)
+    {
+        pen->setWidth(0.1*((size_x+size_y)/2)/(number_point*0.1));
+        painter->setPen(*pen);
+
+        painter->drawLine(tmp.at(i));
+    }
+
+    /* Experimental code for pen width (not working)
+     *
+    QPoint center(size_x/2,size_y/2);
+    int average_size = (size_x+size_y)/2;
+
+    std::function<int(QPoint,QLine)> distance = [](QPoint p, QLine l)
+    {
+        // QT 5.8
+        return sqrt(pow(p.x()-l.center().x(),2)+pow(p.y()-l.center().y(),2));
+
+        return (sqrt(pow(p.x()-l.x1(),2)+pow(p.y()-l.y1(),2))
+               +sqrt(pow(p.x()-l.x2(),2)+pow(p.y()-l.y1(),2)))/2;
+    };
+
+    std::function<int(int,int)> min = [](int a, int b)
+    {
+        return (a > b) ? b : a;
+    };
+    qDebug() << log(1+min((0.1*(average_size)),
+                ((0.1*(average_size))+1)/(0.1*distance(center, tmp.at(i)))));
+    */
 }

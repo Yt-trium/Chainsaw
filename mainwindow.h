@@ -10,6 +10,10 @@
 
 #include <algorithm>
 #include <random>
+#include <functional>
+#include <cmath>
+
+#include "kruskal.h"
 
 /**
  * @brief The Mode enum
@@ -85,6 +89,10 @@ private:
     void genBT2DNextLevel(QPoint p, int n, int m);
 
     /**
+     * @brief init_MST2D
+     */
+    void init_MST2D();
+    /**
      * @brief genMST2D generate a new minimum
      * spanning tree in pixmap
      */
@@ -96,6 +104,10 @@ private:
     std::vector<std::uniform_int_distribution<int>> BT2D_randomIntX;
     std::vector<std::vector<
     std::uniform_int_distribution<int>>>            BT2D_randomIntY;
+    // MST2D
+    // Uniform
+    std::uniform_int_distribution<int> MST2D_randomIntX;
+    std::uniform_int_distribution<int> MST2D_randomIntY;
 
     // Paint Devices
     QPixmap     *pixmap     = NULL;
