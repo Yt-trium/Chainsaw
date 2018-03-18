@@ -9,9 +9,13 @@ Graph/Tree-like Image Generator for deep learning datasets
 * Custom size of image
 * Binary Tree model
   * Custom tree depth
-
-## Todo list
 * Minimum Spanning Tree model
+  * Custom number of Points
+  
+## Todo list
 * 3D images dataset
+* Minimum Spanning Tree model
+  * Custom distribution
+  * Better line width
 
-### Version : 1.1
+### Version : 1.2
