@@ -5,6 +5,7 @@
 #include <QGraphicsItem>
 #include <QFile>
 #include <QTextStream>
+#include <QDir>
 
 #include <QtDebug>
 

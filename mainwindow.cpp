@@ -332,6 +332,16 @@ void MainWindow::on_actionDRIVE_like_triggered()
     QString prefix1, suffix1, prefix2, suffix2, prefix3, suffix3;
 
     // Generate 20 test
+    QDir dir;
+    dir.mkdir("./DRIVE");
+    dir.mkdir("./DRIVE/test");
+    dir.mkdir("./DRIVE/training");
+    dir.mkdir("./DRIVE/test/1st_manual/");
+    dir.mkdir("./DRIVE/test/images");
+    dir.mkdir("./DRIVE/test/mask/");
+    dir.mkdir("./DRIVE/training/1st_manual");
+    dir.mkdir("./DRIVE/training/images");
+    dir.mkdir("./DRIVE/training/mask");
 
     // ground truth
     prefix1 = "./DRIVE/test/1st_manual/";
@@ -357,6 +367,7 @@ void MainWindow::on_actionDRIVE_like_triggered()
         advancement++;
 
         ui->progressBar->setValue(advancement);
+        QCoreApplication::processEvents();
     }
 
     // Generate 20 training
@@ -385,6 +396,7 @@ void MainWindow::on_actionDRIVE_like_triggered()
         advancement++;
 
         ui->progressBar->setValue(advancement);
+        QCoreApplication::processEvents();
     }
 
 }
