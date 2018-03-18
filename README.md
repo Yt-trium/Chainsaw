@@ -1,7 +1,7 @@
 # Chainsaw
 Graph/Tree-like Image Generator for deep learning datasets
 
-![Chainsaw user interface](images/chainsaw_ui_3.png)
+![Chainsaw user interface](images/chainsaw_ui_4.png)
 
 ## Features
 * Preview image
